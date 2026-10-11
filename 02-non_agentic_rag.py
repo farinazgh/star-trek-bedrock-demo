@@ -22,6 +22,19 @@ runtime_client = boto3.client("bedrock-runtime", region_name=REGION)
 def run_rag(query: str) -> str:
     """Retrieve chunks from the knowledge base, invoke Claude with context, and return the answer."""
     # Step 1: retrieve relevant chunks from the knowledge base
+    # You separate retrieve from generate when you need control in between the two steps:
+    #
+    # Filtering/re-ranking — you want to post-process or score chunks before sending to the LLM
+    #
+    # Logging/auditing — you need to record exactly what chunks were retrieved for compliance or debugging
+    #
+    # Hybrid search — you combine KB results with results from another source (e.g. a database or API) before generating
+    #
+    # Prompt engineering — you want full control over how chunks are formatted and injected into the prompt
+    #
+    # Cost optimization — you want to inspect chunks first and decide whether an LLM call is even needed
+    #
+    # Multiple KBs — you retrieve from several knowledge bases and merge results before generating
     kb_response = agent_runtime_client.retrieve(
         knowledgeBaseId=KNOWLEDGE_BASE_ID,
         retrievalQuery={"text": query},
