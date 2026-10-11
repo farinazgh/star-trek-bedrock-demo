@@ -127,6 +127,45 @@ Three semantic differences that matter:
 Step 2 uses a hardcoded `sessionId="data-demo-1"`. Step 3 uses `str(uuid.uuid4())` to
 generate a fresh session per run, ensuring no conversation memory carries over between runs.
 
+**Why session ID matters:**
+
+Bedrock uses the session ID to maintain conversation memory across turns. This has two
+important consequences:
+
+- **Same session ID** → the agent remembers previous exchanges. Running step 2 twice
+  with `"data-demo-1"` means the second run starts with memory of the first, which can
+  pollute the output and make results inconsistent between runs.
+- **Fresh session ID** → isolated single-turn query, no memory of previous runs.
+
+From step 3 onwards, scripts use `str(uuid.uuid4())` because the more complex behavior
+being tested (personas, tool calls, guardrails) requires a clean slate every run — you
+want to test each query in isolation without prior conversation context bleeding in.
+
+**When to keep conversation memory (same session ID):**
+- Multi-turn conversations — user asks follow-ups like "what did you mean by that?" or "give me more detail"
+- Stateful workflows — e.g. booking a flight where each turn builds on the last (origin → destination → date)
+- Personalization — agent remembers preferences expressed earlier ("keep answers short", "I prefer metric units")
+- Long-running tasks — user comes back hours later to continue where they left off
+- Auditing — you need a full conversation trail for compliance or replay
+
+**When to start clean (fresh session ID):**
+- Independent queries — each question is self-contained, no prior context needed
+- Testing/evaluation — you want deterministic, isolated results not polluted by prior runs
+- Batch processing — running the same query against many inputs, each must be independent
+- Security isolation — different users or tenants must never share session context
+- Demos — you want consistent, reproducible output every time you run the script
+
+**Why DynamoDB:**
+By default Bedrock holds session memory in its own managed storage, but it expires.
+DynamoDB gives you:
+- Persistent memory across sessions that outlive Bedrock's TTL
+- Cross-device continuity — user starts on mobile, continues on desktop
+- Full control over what gets stored, retrieved, and purged
+- Audit trail — every turn is queryable and replayable
+
+The pattern is: generate a fresh `uuid` per user session, but persist that session's
+history to DynamoDB so you can reload it on the next visit.
+
 ---
 
 ## Step 4 — `04-inline_agent_action_group.py` — Action Group with RETURN_CONTROL (incomplete)
