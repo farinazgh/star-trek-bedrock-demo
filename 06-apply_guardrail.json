@@ -1,0 +1,1204 @@
+[
+  {
+    "name": "TashaYar",
+    "guardrailId": "uhgxs1ushv9z",
+    "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+    "version": "DRAFT",
+    "status": "READY",
+    "topicPolicy": {
+      "topics": [
+        {
+          "name": "denytasha",
+          "definition": "Any discussion or request about Natasha \"Tasha\" Yar from Star Trek: The Next Generation, including her identity, role, biography, relationships, storylines, death, alternate timelines, and portrayal.",
+          "examples": [],
+          "type": "DENY",
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK",
+          "inputEnabled": true,
+          "outputEnabled": true
+        }
+      ],
+      "tier": {
+        "tierName": "CLASSIC"
+      }
+    },
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "VIOLENCE",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "PROMPT_ATTACK",
+          "inputStrength": "HIGH",
+          "outputStrength": "NONE",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK"
+        },
+        {
+          "type": "MISCONDUCT",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "HATE",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "SEXUAL",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "INSULTS",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        }
+      ],
+      "tier": {
+        "tierName": "STANDARD"
+      }
+    },
+    "wordPolicy": {
+      "words": [],
+      "managedWordLists": [
+        {
+          "type": "PROFANITY",
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK",
+          "inputEnabled": true,
+          "outputEnabled": true
+        }
+      ]
+    },
+    "sensitiveInformationPolicy": {
+      "piiEntities": [
+        {
+          "type": "ADDRESS",
+          "action": "BLOCK",
+          "inputAction": "ANONYMIZE",
+          "outputAction": "ANONYMIZE",
+          "inputEnabled": true,
+          "outputEnabled": true
+        }
+      ],
+      "regexes": []
+    },
+    "contextualGroundingPolicy": {
+      "filters": [
+        {
+          "type": "GROUNDING",
+          "threshold": 0.7,
+          "action": "NONE",
+          "enabled": true
+        },
+        {
+          "type": "RELEVANCE",
+          "threshold": 0.7,
+          "action": "NONE",
+          "enabled": true
+        }
+      ]
+    },
+    "crossRegionDetails": {
+      "guardrailProfileId": "us.guardrail.v1:0",
+      "guardrailProfileArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail-profile/us.guardrail.v1:0"
+    },
+    "blockedInputMessaging": "Sorry, the model cannot answer this question.",
+    "blockedOutputsMessaging": "Sorry, the model cannot answer this question."
+  },
+  {
+    "name": "TashaYar",
+    "guardrailId": "uhgxs1ushv9z",
+    "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+    "version": "DRAFT",
+    "status": "READY",
+    "topicPolicy": {
+      "topics": [
+        {
+          "name": "denytasha",
+          "definition": "Any discussion or request about Natasha \"Tasha\" Yar from Star Trek: The Next Generation, including her identity, role, biography, relationships, storylines, death, alternate timelines, and portrayal.",
+          "examples": [],
+          "type": "DENY",
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK",
+          "inputEnabled": true,
+          "outputEnabled": true
+        }
+      ],
+      "tier": {
+        "tierName": "CLASSIC"
+      }
+    },
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "VIOLENCE",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "PROMPT_ATTACK",
+          "inputStrength": "HIGH",
+          "outputStrength": "NONE",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK"
+        },
+        {
+          "type": "MISCONDUCT",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "HATE",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "SEXUAL",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        },
+        {
+          "type": "INSULTS",
+          "inputStrength": "HIGH",
+          "outputStrength": "HIGH",
+          "inputModalities": [
+            "TEXT"
+          ],
+          "outputModalities": [
+            "TEXT"
+          ],
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK"
+        }
+      ],
+      "tier": {
+        "tierName": "STANDARD"
+      }
+    },
+    "wordPolicy": {
+      "words": [],
+      "managedWordLists": [
+        {
+          "type": "PROFANITY",
+          "inputAction": "BLOCK",
+          "outputAction": "BLOCK",
+          "inputEnabled": true,
+          "outputEnabled": true
+        }
+      ]
+    },
+    "sensitiveInformationPolicy": {
+      "piiEntities": [
+        {
+          "type": "ADDRESS",
+          "action": "BLOCK",
+          "inputAction": "ANONYMIZE",
+          "outputAction": "ANONYMIZE",
+          "inputEnabled": true,
+          "outputEnabled": true
+        }
+      ],
+      "regexes": []
+    },
+    "contextualGroundingPolicy": {
+      "filters": [
+        {
+          "type": "GROUNDING",
+          "threshold": 0.7,
+          "action": "NONE",
+          "enabled": true
+        },
+        {
+          "type": "RELEVANCE",
+          "threshold": 0.7,
+          "action": "NONE",
+          "enabled": true
+        }
+      ]
+    },
+    "crossRegionDetails": {
+      "guardrailProfileId": "us.guardrail.v1:0",
+      "guardrailProfileArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail-profile/us.guardrail.v1:0"
+    },
+    "createdAt": "2026-10-11 17:13:19.083012+00:00",
+    "updatedAt": "2026-10-11 17:13:19.169719+00:00",
+    "statusReasons": [],
+    "failureRecommendations": [],
+    "blockedInputMessaging": "Sorry, the model cannot answer this question.",
+    "blockedOutputsMessaging": "Sorry, the model cannot answer this question."
+  },
+  {
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 351,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 20,
+          "total": 20
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 337,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 48,
+          "total": 48
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "topicPolicy": {
+      "topics": [
+        {
+          "name": "denytasha",
+          "type": "DENY",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 371,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 39,
+          "total": 39
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "topicPolicy": {
+      "topics": [
+        {
+          "name": "denytasha",
+          "type": "DENY",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 558,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 51,
+          "total": 51
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 347,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 38,
+          "total": 38
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "VIOLENCE",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        },
+        {
+          "type": "MISCONDUCT",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 878,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 51,
+          "total": 51
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "VIOLENCE",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        },
+        {
+          "type": "MISCONDUCT",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 346,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 52,
+          "total": 52
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "PROMPT_ATTACK",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 360,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 70,
+          "total": 70
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "MISCONDUCT",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 553,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 45,
+          "total": 45
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "MISCONDUCT",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 461,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 51,
+          "total": 51
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "HATE",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 346,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 67,
+          "total": 67
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "HATE",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 364,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 62,
+          "total": 62
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "SEXUAL",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 556,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 42,
+          "total": 42
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "SEXUAL",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 371,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 44,
+          "total": 44
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "INSULTS",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 385,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 36,
+          "total": 36
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "INSULTS",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 625,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 36,
+          "total": 36
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "INSULTS",
+          "confidence": "LOW",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "wordPolicy": {
+      "managedWordLists": [
+        {
+          "match": "fuck",
+          "type": "PROFANITY",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 361,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 29,
+          "total": 29
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "contentPolicy": {
+      "filters": [
+        {
+          "type": "INSULTS",
+          "confidence": "HIGH",
+          "filterStrength": "HIGH",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "wordPolicy": {
+      "managedWordLists": [
+        {
+          "match": "fuck",
+          "type": "PROFANITY",
+          "action": "BLOCKED",
+          "detected": true
+        }
+      ]
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 492,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 23,
+          "total": 23
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "sensitiveInformationPolicy": {
+      "piiEntities": [
+        {
+          "match": "123 Main Street, Springfield, IL 62704",
+          "type": "ADDRESS",
+          "action": "ANONYMIZED",
+          "detected": true
+        }
+      ],
+      "regexes": []
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 1182,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 58,
+          "total": 58
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "sensitiveInformationPolicy": {
+      "piiEntities": [
+        {
+          "match": "123 Main Street, Springfield, IL 62704",
+          "type": "ADDRESS",
+          "action": "ANONYMIZED",
+          "detected": true
+        }
+      ],
+      "regexes": []
+    },
+    "invocationMetrics": {
+      "guardrailProcessingLatency": 1134,
+      "usage": {
+        "topicPolicyUnits": 1,
+        "contentPolicyUnits": 1,
+        "wordPolicyUnits": 1,
+        "sensitiveInformationPolicyUnits": 1,
+        "sensitiveInformationPolicyFreeUnits": 0,
+        "contextualGroundingPolicyUnits": 0,
+        "contentPolicyImageUnits": 0,
+        "automatedReasoningPolicyUnits": 0,
+        "automatedReasoningPolicies": 0
+      },
+      "guardrailCoverage": {
+        "textCharacters": {
+          "guarded": 55,
+          "total": 55
+        }
+      }
+    },
+    "appliedGuardrailDetails": {
+      "guardrailId": "uhgxs1ushv9z",
+      "guardrailVersion": "DRAFT",
+      "guardrailArn": "arn:aws:bedrock:us-east-1:339712939282:guardrail/uhgxs1ushv9z",
+      "guardrailOrigin": [
+        "REQUEST"
+      ],
+      "guardrailOwnership": "SELF"
+    }
+  },
+  {
+    "filters": [
+      {
+        "type": "GROUNDING",
+        "threshold": 0.7,
+        "score": 0.98,
+        "action": "NONE",
+        "detected": false
+      },
+      {
+        "type": "RELEVANCE",
+        "threshold": 0.7,
+        "score": 1.0,
+        "action": "NONE",
+        "detected": false
+      }
+    ]
+  },
+  {
+    "filters": [
+      {
+        "type": "GROUNDING",
+        "threshold": 0.7,
+        "score": 0.01,
+        "action": "NONE",
+        "detected": true
+      },
+      {
+        "type": "RELEVANCE",
+        "threshold": 0.7,
+        "score": 0.26,
+        "action": "NONE",
+        "detected": true
+      }
+    ]
+  },
+  {
+    "filters": [
+      {
+        "type": "GROUNDING",
+        "threshold": 0.7,
+        "score": 0.89,
+        "action": "NONE",
+        "detected": false
+      },
+      {
+        "type": "RELEVANCE",
+        "threshold": 0.7,
+        "score": 0.42,
+        "action": "NONE",
+        "detected": true
+      }
+    ]
+  }
+]
+
