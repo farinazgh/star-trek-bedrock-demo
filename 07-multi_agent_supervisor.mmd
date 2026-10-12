@@ -1,0 +1,17 @@
+---
+config:
+  theme: forest
+---
+flowchart TB
+    U["👤 User"] --> S["🧠 Supervisor Agent<br>Routing + Synthesis"]
+    S --> K["📚 DataRAGAgent"] & C["🧮 CalculatorAgent"] & U
+    K --> KB[("Knowledge Base")] & S
+    C --> AG["⚙️ Action Group"] & S
+    G["🛡️ Guardrail"] -.-> S & K & C
+
+    style S fill:#FFCDD2
+    style K fill:#BBDEFB
+    style C fill:#BBDEFB
+    style KB fill:#6eaa49
+    style AG fill:#FF6D00
+    style G fill:#D50000
