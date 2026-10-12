@@ -7,7 +7,7 @@ the supervisor back to the caller.
 Architecture:
   User
     -> DataSupervisor
-         -> DataKnowledgeAgent -> Bedrock Knowledge Base
+         -> DataRAGAgent -> Bedrock Knowledge Base
          -> CalculatorAgent    -> Calculator Action Group
                                     -> RETURN_CONTROL
                                     -> local Python calculator
@@ -47,7 +47,7 @@ SUPERVISOR_INSTRUCTIONS = """
 You are the supervisor for a team of specialist agents.
 
 Delegate factual questions about Lieutenant Commander Data
-to DataKnowledgeAgent.
+to DataRAGAgent.
 
 Delegate arithmetic and numeric calculations
 to CalculatorAgent.
@@ -91,9 +91,9 @@ GUARDRAIL_CONFIGURATION = {
     "guardrailVersion": GUARDRAIL_VERSION,
 }
 
-# DataKnowledgeAgent — specialist for KB lookups about Lt. Commander Data
+# DataRAGAgent — specialist for KB lookups about Lt. Commander Data
 RAG_DATA_SUBAGENT = {
-    "agentName": "DataKnowledgeAgent",
+    "agentName": "DataRAGAgent",
     "foundationModel": MODEL_ID,
     "instruction": (
         "You are an expert on Lieutenant Commander Data from "
@@ -134,12 +134,12 @@ SUBAGENTS = [
     TOOL_CALCULATOR_SUBAGENT,
 ]
 
-# SUBAGENTInstruction is the routing signal — supervisor reads this to decide
+# subAgentInstruction is the routing signal — supervisor reads this to decide
 # which SUBAGENT to delegate to, same principle as KB description in step 3
 SUBAGENT_CONFIGURATIONS = [
     {
-        "SUBAGENTName": "DataKnowledgeAgent",
-        "SUBAGENTInstruction": (
+        "subAgentName": "DataRAGAgent",
+        "subAgentInstruction": (
             "Use this SUBAGENT for questions about Lieutenant "
             "Commander Data, including his history, behavior, ethics, "
             "emotions, experiences, and Star Trek TNG information."
@@ -147,8 +147,8 @@ SUBAGENT_CONFIGURATIONS = [
         "relayConversationHistory": "TO_SUBAGENT",
     },
     {
-        "SUBAGENTName": "CalculatorAgent",
-        "SUBAGENTInstruction": (
+        "subAgentName": "CalculatorAgent",
+        "subAgentInstruction": (
             "Use this SUBAGENT whenever arithmetic or numeric "
             "computation is required."
         ),
@@ -223,8 +223,8 @@ def invoke_supervisor(session_id: str, input_text: str, inline_session_state=Non
         "foundationModel": MODEL_ID,
         "instruction": SUPERVISOR_INSTRUCTIONS,
         "inputText": input_text,
-        "SUBAGENTs": SUBAGENTS,
-        "SUBAGENTConfigurations": SUBAGENT_CONFIGURATIONS,
+        "subagents": SUBAGENTS,
+        "subAgentConfigurations": SUBAGENT_CONFIGURATIONS,
         "guardrailConfiguration": GUARDRAIL_CONFIGURATION,
         "enableTrace": True,
     }
@@ -253,7 +253,7 @@ def run_inline_agent(query: str) -> str:
     # agentId identifies which SUBAGENT issued the returnControl —
     # must be included in the resume payload so the supervisor routes the result correctly
     agent_id = function_input.get("agentId")
-    SUBAGENT_name = function_input.get("SUBAGENTName")
+    SUBAGENT_name = function_input.get("subAgentName")
 
     # execute the requested function locally
     print("\n========== LOCAL FUNCTION EXECUTION ==========")
