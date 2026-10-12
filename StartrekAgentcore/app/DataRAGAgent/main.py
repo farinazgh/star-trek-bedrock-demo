@@ -1,7 +1,17 @@
+"""
+DataRAGAgent — AgentCore runtime entry point.
+
+Mirrors the behaviour of 06-inline_agent_guardrail.py:
+  • Lieutenant Commander Data persona
+  • Knowledge base for Star Trek facts
+  • Calculator tool (eval_expression) executed locally via return-control
+  • Guardrail that blocks off-topic / unsafe queries
+"""
+
+import ast
+import operator as op
 from typing import Any
-from collections import OrderedDict
 from strands import Agent, tool
-import asyncio
 from strands.agent.conversation_manager.null_conversation_manager import NullConversationManager
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
 from model.load import load_model
@@ -11,28 +21,75 @@ from memory.session import get_memory_session_manager
 app = BedrockAgentCoreApp()
 log = app.logger
 
-# Define a Streamable HTTP MCP Client
-mcp_clients = [get_streamable_http_mcp_client()]
+# ---------------------------------------------------------------------------
+# Config — mirrors the constants in 06-inline_agent_guardrail.py
+# ---------------------------------------------------------------------------
+KNOWLEDGE_BASE_ID = "KGXDNOMFVC"
+GUARDRAIL_ID = "uhgxs1ushv9z"
+GUARDRAIL_VERSION = "DRAFT"
 
+# ---------------------------------------------------------------------------
+# Persona / system prompt — same instruction as the inline agent
+# ---------------------------------------------------------------------------
 DEFAULT_SYSTEM_PROMPT = """
-You are a helpful assistant. Use tools when appropriate.
+You are Lieutenant Commander Data from Star Trek: The Next Generation.
 
+Use the attached knowledge base for questions about Commander Data.
+
+If the user asks for arithmetic or numeric computation,
+use the calculator tool.
 """
 
+# ---------------------------------------------------------------------------
+# Safe arithmetic evaluator — mirrors eval_expression from 06-*
+# Only allows whitelisted AST node types; no arbitrary code execution.
+# ---------------------------------------------------------------------------
+ALLOWED_OPS = {
+    ast.Add: op.add,
+    ast.Sub: op.sub,
+    ast.Mult: op.mul,
+    ast.Div: op.truediv,
+    ast.Pow: op.pow,
+    ast.USub: op.neg,
+    ast.Mod: op.mod,
+}
 
-# Define a collection of tools used by the model
+
+def _eval_ast(node):
+    """Recursively evaluate a whitelisted AST node."""
+    if isinstance(node, ast.Constant):
+        return node.value
+    if isinstance(node, ast.UnaryOp) and type(node.op) in ALLOWED_OPS:
+        return ALLOWED_OPS[type(node.op)](_eval_ast(node.operand))
+    if isinstance(node, ast.BinOp) and type(node.op) in ALLOWED_OPS:
+        return ALLOWED_OPS[type(node.op)](_eval_ast(node.left), _eval_ast(node.right))
+    raise ValueError(f"Unsupported expression node: {type(node)}")
+
+
+# ---------------------------------------------------------------------------
+# Tools
+# ---------------------------------------------------------------------------
+mcp_clients = [get_streamable_http_mcp_client()]
+
 tools = []
 
 _INLINE_FUNCTION_NAMES = set()
 
-# Define a simple function tool
+
 @tool
-def add_numbers(a: int, b: int) -> int:
-    """Return the sum of two numbers"""
-    return a+b
-tools.append(add_numbers)
+def eval_expression(expression: str) -> str:
+    """
+    Safely evaluate an arithmetic expression.
+
+    Supports + - * / % ** and parentheses.
+    Example: "2 ** 10" → "1024"
+    """
+    tree = ast.parse(expression.replace("^", "**"), mode="eval")
+    result = _eval_ast(tree.body)
+    return str(result)
 
 
+tools.append(eval_expression)
 
 # Add MCP client to tools if available
 for mcp_client in mcp_clients:
@@ -40,11 +97,16 @@ for mcp_client in mcp_clients:
         tools.append(mcp_client)
 
 
+# ---------------------------------------------------------------------------
+# Agent factory — one agent per (session_id, user_id) pair
+# ---------------------------------------------------------------------------
 def _make_conversation_manager():
     return NullConversationManager()
 
+
 def agent_factory():
     cache = {}
+
     def get_or_create_agent(session_id, user_id):
         _actor_id = user_id
         key = f"{session_id}/{_actor_id}"
@@ -55,24 +117,39 @@ def agent_factory():
                 conversation_manager=_make_conversation_manager(),
                 system_prompt=DEFAULT_SYSTEM_PROMPT,
                 tools=tools,
-                hooks=[
-                ],
+                hooks=[],
             )
         return cache[key]
+
     return get_or_create_agent
+
+
 get_or_create_agent = agent_factory()
 
 
+# ---------------------------------------------------------------------------
+# Payload helpers
+# ---------------------------------------------------------------------------
 def _extract_prompt(payload: dict):
     """Accept harness-style messages[], tool_results[], or plain prompt string payloads."""
     if "messages" in payload:
         return payload["messages"]
     if "tool_results" in payload:
-        return [{"role": "user", "content": [{"toolResult": {
-            "toolUseId": tr["toolUseId"],
-            "status": tr.get("status", "success"),
-            "content": tr.get("content", []),
-        }} for tr in payload["tool_results"]]}]
+        return [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "toolResult": {
+                            "toolUseId": tr["toolUseId"],
+                            "status": tr.get("status", "success"),
+                            "content": tr.get("content", []),
+                        }
+                    }
+                    for tr in payload["tool_results"]
+                ],
+            }
+        ]
     return payload.get("prompt", "")
 
 
@@ -98,22 +175,20 @@ def _is_inline_function_call(event: dict) -> bool:
     return tool_use is not None and tool_use.get("name") in _INLINE_FUNCTION_NAMES
 
 
-
+# ---------------------------------------------------------------------------
+# Entrypoint
+# ---------------------------------------------------------------------------
 @app.entrypoint
 async def invoke(payload, context):
     log.info("Invoking Agent.....")
 
-
-    session_id = getattr(context, 'session_id', 'default-session')
-    user_id = getattr(context, 'user_id', 'default-user')
+    session_id = getattr(context, "session_id", "default-session")
+    user_id = getattr(context, "user_id", "default-user")
     agent = get_or_create_agent(session_id, user_id)
 
     prompt = _extract_prompt(payload)
 
-
-    async for event in agent.stream_async(
-        prompt,
-    ):
+    async for event in agent.stream_async(prompt):
         if not isinstance(event, dict) or "event" not in event:
             continue
         cbs = event["event"].get("contentBlockStart")

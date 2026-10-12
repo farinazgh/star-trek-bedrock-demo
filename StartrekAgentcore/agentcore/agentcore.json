@@ -53,7 +53,13 @@
       ]
     }
   ],
-  "knowledgeBases": [],
+  "knowledgeBases": [
+    {
+      "name": "StarTrekKB",
+      "knowledgeBaseId": "KGXDNOMFVC",
+      "description": "Contains information about Lieutenant Commander Data."
+    }
+  ],
   "credentials": [],
   "evaluators": [],
   "onlineEvalConfigs": [],
