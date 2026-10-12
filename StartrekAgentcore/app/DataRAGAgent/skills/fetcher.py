@@ -57,16 +57,22 @@ def _read_skill_name(skill_dir: Path) -> str:
     """Extract the skill name from SKILL.md YAML frontmatter."""
     content = (skill_dir / "SKILL.md").read_text()
     if not content.startswith("---"):
-        raise ValueError(f"SKILL.md in {skill_dir} has no YAML frontmatter (must start with ---)")
+        raise ValueError(
+            f"SKILL.md in {skill_dir} has no YAML frontmatter (must start with ---)"
+        )
     parts = content.split("---", 2)
     if len(parts) < 3:
-        raise ValueError(f"SKILL.md in {skill_dir} has malformed frontmatter (missing closing ---)")
+        raise ValueError(
+            f"SKILL.md in {skill_dir} has malformed frontmatter (missing closing ---)"
+        )
     for line in parts[1].strip().splitlines():
         if line.startswith("name:"):
-            name = line[len("name:"):].strip().strip("\"'")
+            name = line[len("name:") :].strip().strip("\"'")
             if name:
                 return name
-    raise ValueError(f"SKILL.md in {skill_dir} is missing a 'name' field in frontmatter")
+    raise ValueError(
+        f"SKILL.md in {skill_dir} is missing a 'name' field in frontmatter"
+    )
 
 
 def _pick_dir_name(type_dir: Path, name: str, source_hash: str) -> str:
@@ -76,8 +82,13 @@ def _pick_dir_name(type_dir: Path, name: str, source_hash: str) -> str:
     return f"{name}-{source_hash[:8]}"
 
 
-def _rename_and_cache_skill(type_dir: Path, temp_dir: Path, source_hash: str, skill_root: Path,
-                            source_label: str = "") -> Path:
+def _rename_and_cache_skill(
+    type_dir: Path,
+    temp_dir: Path,
+    source_hash: str,
+    skill_root: Path,
+    source_label: str = "",
+) -> Path:
     """Validate SKILL.md, rename the temp dir to the skill's declared name, and update the map.
 
     Raises ValueError if SKILL.md is missing or has invalid frontmatter.
@@ -110,8 +121,9 @@ def _fetch_s3_skill(source: str, s3_client=None) -> Path:
         return Path(cached)
 
     import boto3
+
     client = s3_client or boto3.client("s3")
-    bucket, _, prefix = uri[len("s3://"):].partition("/")
+    bucket, _, prefix = uri[len("s3://") :].partition("/")
     if not bucket:
         raise ValueError(f"Invalid S3 URI (no bucket): {uri}")
 
@@ -128,7 +140,7 @@ def _fetch_s3_skill(source: str, s3_client=None) -> Path:
             if total > _S3_MAX_SIZE_BYTES:
                 _cleanup(temp_dir)
                 raise ValueError(f"S3 skill {uri} exceeds 1 GB size limit")
-            rel = obj["Key"][len(prefix):].lstrip("/")
+            rel = obj["Key"][len(prefix) :].lstrip("/")
             if not rel:
                 continue
             dest = (temp_dir / rel).resolve()
@@ -142,7 +154,9 @@ def _fetch_s3_skill(source: str, s3_client=None) -> Path:
         _cleanup(temp_dir)
         raise ValueError(f"No files found at S3 URI: {uri}")
 
-    return _rename_and_cache_skill(type_dir, temp_dir, source_hash, temp_dir, source_label=uri)
+    return _rename_and_cache_skill(
+        type_dir, temp_dir, source_hash, temp_dir, source_label=uri
+    )
 
 
 def _resolve_credential_arn(credential_arn: str, identity_client) -> str:
@@ -150,7 +164,9 @@ def _resolve_credential_arn(credential_arn: str, identity_client) -> str:
 
     ARN format: arn:<p>:bedrock-agentcore:<region>:<account>:token-vault/<vault>/apikeycredentialprovider/<name>
     """
-    from bedrock_agentcore.runtime.context import BedrockAgentCoreContext  # noqa: PLC0415
+    from bedrock_agentcore.runtime.context import (
+        BedrockAgentCoreContext,
+    )  # noqa: PLC0415
 
     provider_name = credential_arn.rsplit("/", 1)[-1]
     if not provider_name:
@@ -163,11 +179,15 @@ def _resolve_credential_arn(credential_arn: str, identity_client) -> str:
         workloadIdentityToken=workload_token,
     )["apiKey"]
     if not api_key:
-        raise ValueError(f"Identity returned empty API key for provider: {provider_name}")
+        raise ValueError(
+            f"Identity returned empty API key for provider: {provider_name}"
+        )
     return api_key
 
 
-def _build_git_auth_env(credential_arn: Optional[str], username: Optional[str], identity_client=None) -> dict:
+def _build_git_auth_env(
+    credential_arn: Optional[str], username: Optional[str], identity_client=None
+) -> dict:
     """Build GIT_CONFIG_* env vars for HTTP Basic auth using a Token Vault credential ARN.
 
     Uses env vars instead of -c args to avoid leaking credentials in /proc/*/cmdline,
@@ -185,8 +205,13 @@ def _build_git_auth_env(credential_arn: Optional[str], username: Optional[str], 
     }
 
 
-def _fetch_git_skill(url: str, skill_path: str = "", credential_arn: Optional[str] = None,
-                     username: Optional[str] = None, identity_client=None) -> Path:
+def _fetch_git_skill(
+    url: str,
+    skill_path: str = "",
+    credential_arn: Optional[str] = None,
+    username: Optional[str] = None,
+    identity_client=None,
+) -> Path:
     """Shallow-clone a git skill repository and return the local skill directory.
 
     Returns the directory containing SKILL.md (the subdir itself for sparse checkouts).
@@ -211,17 +236,36 @@ def _fetch_git_skill(url: str, skill_path: str = "", credential_arn: Optional[st
     try:
         if skill_path:
             subprocess.run(
-                ["git", "clone", "--depth", "1", "--filter=blob:none", "--sparse", url, str(temp_dir)],
-                check=True, timeout=_GIT_TIMEOUT, capture_output=True, env=git_env,
+                [
+                    "git",
+                    "clone",
+                    "--depth",
+                    "1",
+                    "--filter=blob:none",
+                    "--sparse",
+                    url,
+                    str(temp_dir),
+                ],
+                check=True,
+                timeout=_GIT_TIMEOUT,
+                capture_output=True,
+                env=git_env,
             )
             subprocess.run(
                 ["git", "sparse-checkout", "set", skill_path],
-                check=True, timeout=_GIT_TIMEOUT, capture_output=True, cwd=str(temp_dir), env=git_env,
+                check=True,
+                timeout=_GIT_TIMEOUT,
+                capture_output=True,
+                cwd=str(temp_dir),
+                env=git_env,
             )
         else:
             subprocess.run(
                 ["git", "clone", "--depth", "1", url, str(temp_dir)],
-                check=True, timeout=_GIT_TIMEOUT, capture_output=True, env=git_env,
+                check=True,
+                timeout=_GIT_TIMEOUT,
+                capture_output=True,
+                env=git_env,
             )
     except Exception:
         _cleanup(temp_dir)
@@ -234,7 +278,9 @@ def _fetch_git_skill(url: str, skill_path: str = "", credential_arn: Optional[st
     # SKILL.md lives inside the subdir for sparse checkouts.
     skill_root = temp_dir / skill_path if skill_path else temp_dir
     label = f"{url}:{skill_path}" if skill_path else url
-    final_dir = _rename_and_cache_skill(type_dir, temp_dir, source_hash, skill_root, source_label=label)
+    final_dir = _rename_and_cache_skill(
+        type_dir, temp_dir, source_hash, skill_root, source_label=label
+    )
     return final_dir / skill_path if skill_path else final_dir
 
 
@@ -274,6 +320,8 @@ def resolve_git_skills(sources: list, identity_client=None) -> list:
                 identity_client=identity_client,
             )
         except Exception as e:
-            raise ValueError(f"Failed to resolve git skill '{source.get('url', source)}': {e}") from e
+            raise ValueError(
+                f"Failed to resolve git skill '{source.get('url', source)}': {e}"
+            ) from e
         paths.append(str(skill_dir.resolve()))
     return paths

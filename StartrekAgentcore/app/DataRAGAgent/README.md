@@ -37,3 +37,50 @@ In a new terminal, you can invoke that server with:
 After providing credentials, `agentcore deploy` will deploy your project into Amazon Bedrock AgentCore.
 
 Use `agentcore invoke` to invoke your deployed agent.
+
+
+---
+
+## AgentCore — Connecting the Existing Knowledge Base as a Gateway
+
+The `StartrekAgentcore/` folder contains an AgentCore project that exposes the same
+Knowledge Base (`KGXDNOMFVC`) used throughout this demo to an AgentCore runtime.
+
+**Two ways to attach a Knowledge Base in AgentCore:**
+
+- `knowledgeBases` in `agentcore.json` — AgentCore creates and manages a **new** KB for you
+- **Gateway** — you connect an **existing** KB as a target; AgentCore does not own or manage it
+
+Since `KGXDNOMFVC` already exists, it is attached as a gateway rather than recreated.
+
+**The two commands in `commands.sh`:**
+
+```bash
+# 1. create the gateway with IAM auth
+agentcore add gateway --name StarTrekGateway --authorizer-type AWS_IAM
+
+# 2. add the existing KB as a target on that gateway
+agentcore add gateway-target \
+  --name LieutenantCommanderData \
+  --type connector \
+  --connector bedrock-knowledge-bases \
+  --knowledge-base-id KGXDNOMFVC \
+  --gateway StarTrekGateway
+```
+
+- The gateway (`StarTrekGateway`) is the entry point — it handles auth and routing
+- The target (`LieutenantCommanderData`) is the connector that points at `KGXDNOMFVC`
+- `--authorizer-type AWS_IAM` means only IAM-authenticated callers can invoke the gateway
+
+**What gets written to `agentcore.json`:**
+
+Running these commands populates the `agentCoreGateways` block in `agentcore.json` with
+two endpoint configurations on the `LieutenantCommanderData` target:
+
+| Endpoint | What it does |
+|---|---|
+| `Retrieve` | standard vector search — same as `client.retrieve()` in step 1 |
+| `AgenticRetrieveStream` | multi-step agentic retrieval with planning, reranking, and streaming — goes beyond simple vector search |
+
+The `knowledgeBases` array in `agentcore.json` stays empty because AgentCore is not
+managing the KB — it is only proxying to the existing one via the gateway.

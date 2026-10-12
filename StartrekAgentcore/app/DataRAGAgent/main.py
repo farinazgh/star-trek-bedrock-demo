@@ -1,95 +1,40 @@
-"""
-DataRAGAgent — AgentCore runtime entry point.
-
-Mirrors the behaviour of 06-inline_agent_guardrail.py:
-  • Lieutenant Commander Data persona
-  • Knowledge base for Star Trek facts
-  • Calculator tool (eval_expression) executed locally via return-control
-  • Guardrail that blocks off-topic / unsafe queries
-"""
-
-import ast
-import operator as op
-from typing import Any
-from strands import Agent, tool
-from strands.agent.conversation_manager.null_conversation_manager import NullConversationManager
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
-from model.load import load_model
+from strands import Agent, tool
+from strands.agent.conversation_manager.null_conversation_manager import (
+    NullConversationManager,
+)
+
 from mcp_client.client import get_streamable_http_mcp_client
 from memory.session import get_memory_session_manager
+from model.load import load_model
 
 app = BedrockAgentCoreApp()
 log = app.logger
 
-# ---------------------------------------------------------------------------
-# Config — mirrors the constants in 06-inline_agent_guardrail.py
-# ---------------------------------------------------------------------------
-KNOWLEDGE_BASE_ID = "KGXDNOMFVC"
-GUARDRAIL_ID = "uhgxs1ushv9z"
-GUARDRAIL_VERSION = "DRAFT"
-
-# ---------------------------------------------------------------------------
-# Persona / system prompt — same instruction as the inline agent
-# ---------------------------------------------------------------------------
-DEFAULT_SYSTEM_PROMPT = """
-You are Lieutenant Commander Data from Star Trek: The Next Generation.
-
-Use the attached knowledge base for questions about Commander Data.
-
-If the user asks for arithmetic or numeric computation,
-use the calculator tool.
-"""
-
-# ---------------------------------------------------------------------------
-# Safe arithmetic evaluator — mirrors eval_expression from 06-*
-# Only allows whitelisted AST node types; no arbitrary code execution.
-# ---------------------------------------------------------------------------
-ALLOWED_OPS = {
-    ast.Add: op.add,
-    ast.Sub: op.sub,
-    ast.Mult: op.mul,
-    ast.Div: op.truediv,
-    ast.Pow: op.pow,
-    ast.USub: op.neg,
-    ast.Mod: op.mod,
-}
-
-
-def _eval_ast(node):
-    """Recursively evaluate a whitelisted AST node."""
-    if isinstance(node, ast.Constant):
-        return node.value
-    if isinstance(node, ast.UnaryOp) and type(node.op) in ALLOWED_OPS:
-        return ALLOWED_OPS[type(node.op)](_eval_ast(node.operand))
-    if isinstance(node, ast.BinOp) and type(node.op) in ALLOWED_OPS:
-        return ALLOWED_OPS[type(node.op)](_eval_ast(node.left), _eval_ast(node.right))
-    raise ValueError(f"Unsupported expression node: {type(node)}")
-
-
-# ---------------------------------------------------------------------------
-# Tools
-# ---------------------------------------------------------------------------
+# Define a Streamable HTTP MCP Client
 mcp_clients = [get_streamable_http_mcp_client()]
 
+DEFAULT_SYSTEM_PROMPT = """
+You are a helpful assistant. Use tools when appropriate.
+
+"""
+
+
+# Define a collection of tools used by the model
 tools = []
 
 _INLINE_FUNCTION_NAMES = set()
 
 
+# Define a simple function tool
 @tool
-def eval_expression(expression: str) -> str:
-    """
-    Safely evaluate an arithmetic expression.
-
-    Supports + - * / % ** and parentheses.
-    Example: "2 ** 10" → "1024"
-    """
-    tree = ast.parse(expression.replace("^", "**"), mode="eval")
-    result = _eval_ast(tree.body)
-    return str(result)
+def add_numbers(a: int, b: int) -> int:
+    """Return the sum of two numbers"""
+    return a + b
 
 
-tools.append(eval_expression)
+tools.append(add_numbers)
+
 
 # Add MCP client to tools if available
 for mcp_client in mcp_clients:
@@ -97,9 +42,6 @@ for mcp_client in mcp_clients:
         tools.append(mcp_client)
 
 
-# ---------------------------------------------------------------------------
-# Agent factory — one agent per (session_id, user_id) pair
-# ---------------------------------------------------------------------------
 def _make_conversation_manager():
     return NullConversationManager()
 
@@ -127,9 +69,6 @@ def agent_factory():
 get_or_create_agent = agent_factory()
 
 
-# ---------------------------------------------------------------------------
-# Payload helpers
-# ---------------------------------------------------------------------------
 def _extract_prompt(payload: dict):
     """Accept harness-style messages[], tool_results[], or plain prompt string payloads."""
     if "messages" in payload:
@@ -160,7 +99,10 @@ def _has_inline_function_call(messages) -> bool:
     for msg in messages:
         if msg.get("role") == "assistant":
             for block in msg.get("content", []):
-                if isinstance(block, dict) and block.get("toolUse", {}).get("name") in _INLINE_FUNCTION_NAMES:
+                if (
+                    isinstance(block, dict)
+                    and block.get("toolUse", {}).get("name") in _INLINE_FUNCTION_NAMES
+                ):
                     return True
     return False
 
@@ -175,9 +117,6 @@ def _is_inline_function_call(event: dict) -> bool:
     return tool_use is not None and tool_use.get("name") in _INLINE_FUNCTION_NAMES
 
 
-# ---------------------------------------------------------------------------
-# Entrypoint
-# ---------------------------------------------------------------------------
 @app.entrypoint
 async def invoke(payload, context):
     log.info("Invoking Agent.....")
@@ -188,7 +127,9 @@ async def invoke(payload, context):
 
     prompt = _extract_prompt(payload)
 
-    async for event in agent.stream_async(prompt):
+    async for event in agent.stream_async(
+        prompt,
+    ):
         if not isinstance(event, dict) or "event" not in event:
             continue
         cbs = event["event"].get("contentBlockStart")

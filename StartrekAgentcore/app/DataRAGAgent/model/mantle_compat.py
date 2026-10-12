@@ -16,6 +16,8 @@ class MantleCompatResponsesModel(OpenAIResponsesModel):
         for msg in formatted:
             if msg.get("role") == "assistant" and isinstance(msg.get("content"), list):
                 msg["content"] = "".join(
-                    part.get("text", "") for part in msg["content"] if part.get("type") == "output_text"
+                    part.get("text", "")
+                    for part in msg["content"]
+                    if part.get("type") == "output_text"
                 )
         return formatted

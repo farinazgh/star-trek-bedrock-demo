@@ -1,3 +1,37 @@
 {
-  "targets": {}
+  "targets": {
+    "default": {
+      "resources": {
+        "runtimes": {
+          "DataRAGAgent": {
+            "runtimeId": "StartrekAgentcore_DataRAGAgent-ktFs2yCMzh",
+            "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:339712939282:runtime/StartrekAgentcore_DataRAGAgent-ktFs2yCMzh",
+            "roleArn": "arn:aws:iam::339712939282:role/AgentCore-StartrekAgentco-ApplicationAgentDataRAGAg-N9oDH0AXYK1X"
+          }
+        },
+        "memories": {
+          "DataRAGAgentMemory": {
+            "memoryId": "StartrekAgentcore_DataRAGAgentMemory-paDshnDl7x",
+            "memoryArn": "arn:aws:bedrock-agentcore:us-east-1:339712939282:memory/StartrekAgentcore_DataRAGAgentMemory-paDshnDl7x"
+          }
+        },
+        "mcp": {
+          "gateways": {
+            "StarTrekGateway": {
+              "gatewayId": "startrekagentcore-startrekgateway-321spmaima",
+              "gatewayArn": "arn:aws:bedrock-agentcore:us-east-1:339712939282:gateway/startrekagentcore-startrekgateway-321spmaima",
+              "gatewayUrl": "https://startrekagentcore-startrekgateway-321spmaima.gateway.bedrock-agentcore.us-east-1.amazonaws.com",
+              "targets": {
+                "LieutenantCommanderData": {
+                  "targetId": "7BIKENQLP7"
+                }
+              }
+            }
+          }
+        },
+        "stackName": "AgentCore-StartrekAgentcore-default",
+        "deployHash": "1acc9c6d2ee78b42"
+      }
+    }
+  }
 }
