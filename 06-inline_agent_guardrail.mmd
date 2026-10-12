@@ -1,0 +1,15 @@
+---
+config:
+  theme: forest
+---
+flowchart TB
+    U["👤 User"] --> S["🧠 Inline Agent<br/>Routing + Response Generation"]
+    S --> KB[("Knowledge Base")]
+    S --> AG["⚙️ Action Group<br/>RETURN_CONTROL"]
+    U --> S
+    G["🛡️ Guardrail"] -.-> S
+
+    style S fill:#FFCDD2
+    style KB fill:#6eaa49
+    style AG fill:#FF6D00
+    style G fill:#D50000
