@@ -9,4 +9,5 @@ dependencies = [
     "boto3>=1.43.108",
     "boto3-stubs>=1.43.108",
     "isort>=9.0.2",
+    "mcp-proxy-for-aws>=1.7.0",
 ]

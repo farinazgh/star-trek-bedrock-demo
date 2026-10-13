@@ -1,0 +1,45 @@
+[
+  {
+    "knowledgeBase": {
+      "knowledgeBaseId": "YVCCPJU5EN",
+      "name": "lieutenant-data-managed",
+      "knowledgeBaseArn": "arn:aws:bedrock:us-east-1:339712939282:knowledge-base/YVCCPJU5EN",
+      "roleArn": "arn:aws:iam::339712939282:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_iloni",
+      "knowledgeBaseConfiguration": {
+        "type": "MANAGED"
+      },
+      "status": "ACTIVE",
+      "createdAt": "2026-10-12T15:46:44.410472+00:00",
+      "updatedAt": "2026-10-12T15:46:44.410472+00:00"
+    }
+  },
+  {
+    "knowledgeBase": {
+      "knowledgeBaseId": "KGXDNOMFVC",
+      "name": "lieutenant-commander-data",
+      "knowledgeBaseArn": "arn:aws:bedrock:us-east-1:339712939282:knowledge-base/KGXDNOMFVC",
+      "roleArn": "arn:aws:iam::339712939282:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_kiy6b",
+      "knowledgeBaseConfiguration": {
+        "type": "VECTOR",
+        "vectorKnowledgeBaseConfiguration": {
+          "embeddingModelArn": "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v2:0",
+          "embeddingModelConfiguration": {
+            "bedrockEmbeddingModelConfiguration": {
+              "dimensions": 1024,
+              "embeddingDataType": "FLOAT32"
+            }
+          }
+        }
+      },
+      "storageConfiguration": {
+        "type": "S3_VECTORS",
+        "s3VectorsConfiguration": {
+          "indexArn": "arn:aws:s3vectors:us-east-1:339712939282:bucket/bedrock-knowledge-base-jh6fae/index/bedrock-knowledge-base-default-index"
+        }
+      },
+      "status": "ACTIVE",
+      "createdAt": "2026-10-05T10:22:04.696053+00:00",
+      "updatedAt": "2026-10-05T10:22:04.696053+00:00"
+    }
+  }
+]

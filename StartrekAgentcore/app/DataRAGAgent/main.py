@@ -1,3 +1,8 @@
+"""Star Trek Data agent: AgentCore Runtime + Memory + Gateway MCP tools."""
+
+import ast
+import operator
+
 from bedrock_agentcore.runtime import BedrockAgentCoreApp
 from strands import Agent, tool
 from strands.agent.conversation_manager.null_conversation_manager import (
@@ -11,32 +16,89 @@ from model.load import load_model
 app = BedrockAgentCoreApp()
 log = app.logger
 
-# Define a Streamable HTTP MCP Client
+# The MCP client must point to StarTrekGateway. Its Knowledge Base target
+# (YVCCPJU5EN) is configured in AgentCore, not hardcoded in this file.
 mcp_clients = [get_streamable_http_mcp_client()]
 
 DEFAULT_SYSTEM_PROMPT = """
-You are a helpful assistant. Use tools when appropriate.
+You are Lieutenant Commander Data from Star Trek: The Next Generation.
 
+When asked about Data or Star Trek facts, use the knowledge-base retrieval
+MCP tools exposed by StarTrekGateway before answering. Prefer Retrieve for
+simple factual lookups; use AgenticRetrieveStream for complex research when
+appropriate. Ground answers in retrieved evidence. If nothing relevant is
+found, say so rather than inventing information.
+
+When asked to perform arithmetic, call the eval_expression calculator tool.
+If a question needs both facts and calculations, use both tools.
+Be clear, accurate, and concise.
 """
 
 
-# Define a collection of tools used by the model
-tools = []
+# A small, safe arithmetic evaluator: no eval(), function calls, or variables.
+ALLOWED_OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Mod: operator.mod,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+    ast.UAdd: operator.pos,
+}
+MAX_ABS_VALUE = 1_000_000_000_000
 
-_INLINE_FUNCTION_NAMES = set()
+
+def _evaluate(node):
+    if isinstance(node, ast.Constant) and type(node.value) in (int, float):
+        result = node.value
+    elif isinstance(node, ast.UnaryOp) and type(node.op) in (ast.USub, ast.UAdd):
+        result = ALLOWED_OPERATORS[type(node.op)](_evaluate(node.operand))
+    elif isinstance(node, ast.BinOp) and type(node.op) in ALLOWED_OPERATORS:
+        left = _evaluate(node.left)
+        right = _evaluate(node.right)
+        if isinstance(node.op, ast.Pow) and (abs(right) > 10 or right < 0):
+            raise ValueError("Exponent must be between 0 and 10")
+        result = ALLOWED_OPERATORS[type(node.op)](left, right)
+    else:
+        raise ValueError("Unsupported arithmetic expression")
+
+    if not isinstance(result, (int, float, complex)) or isinstance(result, complex):
+        raise ValueError("Unsupported numeric result")
+    if not (float("-inf") < result < float("inf")) or abs(result) > MAX_ABS_VALUE:
+        raise ValueError("Result exceeds safe limits")
+    return result
 
 
-# Define a simple function tool
+@tool
+def eval_expression(expression: str) -> str:
+    """Calculate an arithmetic expression using + - * / % ^ and parentheses.
+
+    Examples: '(2 * 8)^2 / 3', '12 + 7', '10 % 3'.
+    """
+    try:
+        if len(expression) > 100:
+            raise ValueError("Expression is too long")
+        tree = ast.parse(expression.replace("^", "**"), mode="eval")
+        return str(_evaluate(tree.body))
+    except (
+        SyntaxError,
+        ValueError,
+        ZeroDivisionError,
+        OverflowError,
+        RecursionError,
+    ) as exc:
+        return f"Calculation error: {exc}"
+
+
 @tool
 def add_numbers(a: int, b: int) -> int:
-    """Return the sum of two numbers"""
+    """Add two numbers and return the result."""
     return a + b
 
 
-tools.append(add_numbers)
-
-
-# Add MCP client to tools if available
+# Strands orchestrates local Python tools and Gateway MCP tools automatically.
+tools = [eval_expression, add_numbers]
 for mcp_client in mcp_clients:
     if mcp_client:
         tools.append(mcp_client)
@@ -50,12 +112,11 @@ def agent_factory():
     cache = {}
 
     def get_or_create_agent(session_id, user_id):
-        _actor_id = user_id
-        key = f"{session_id}/{_actor_id}"
+        key = f"{session_id}/{user_id}"
         if key not in cache:
             cache[key] = Agent(
                 model=load_model(),
-                session_manager=get_memory_session_manager(session_id, _actor_id),
+                session_manager=get_memory_session_manager(session_id, user_id),
                 conversation_manager=_make_conversation_manager(),
                 system_prompt=DEFAULT_SYSTEM_PROMPT,
                 tools=tools,
@@ -70,7 +131,7 @@ get_or_create_agent = agent_factory()
 
 
 def _extract_prompt(payload: dict):
-    """Accept harness-style messages[], tool_results[], or plain prompt string payloads."""
+    """Accept harness-style messages, tool results, or plain prompts."""
     if "messages" in payload:
         return payload["messages"]
     if "tool_results" in payload:
@@ -80,60 +141,32 @@ def _extract_prompt(payload: dict):
                 "content": [
                     {
                         "toolResult": {
-                            "toolUseId": tr["toolUseId"],
-                            "status": tr.get("status", "success"),
-                            "content": tr.get("content", []),
+                            "toolUseId": result["toolUseId"],
+                            "status": result.get("status", "success"),
+                            "content": result.get("content", []),
                         }
                     }
-                    for tr in payload["tool_results"]
+                    for result in payload["tool_results"]
                 ],
             }
         ]
     return payload.get("prompt", "")
 
 
-def _has_inline_function_call(messages) -> bool:
-    """Return True if messages contains an assistant toolUse for an inline function tool."""
-    if not _INLINE_FUNCTION_NAMES or not isinstance(messages, list):
-        return False
-    for msg in messages:
-        if msg.get("role") == "assistant":
-            for block in msg.get("content", []):
-                if (
-                    isinstance(block, dict)
-                    and block.get("toolUse", {}).get("name") in _INLINE_FUNCTION_NAMES
-                ):
-                    return True
-    return False
-
-
-def _is_inline_function_call(event: dict) -> bool:
-    """Check if a contentBlockStart event is for an inline function tool."""
-    if not _INLINE_FUNCTION_NAMES:
-        return False
-    cbs = event.get("contentBlockStart", {})
-    start = cbs.get("start", {})
-    tool_use = start.get("toolUse") if isinstance(start, dict) else None
-    return tool_use is not None and tool_use.get("name") in _INLINE_FUNCTION_NAMES
-
-
 @app.entrypoint
 async def invoke(payload, context):
-    log.info("Invoking Agent.....")
+    log.info("Invoking DataRAGAgent...")
 
     session_id = getattr(context, "session_id", "default-session")
     user_id = getattr(context, "user_id", "default-user")
     agent = get_or_create_agent(session_id, user_id)
-
     prompt = _extract_prompt(payload)
 
-    async for event in agent.stream_async(
-        prompt,
-    ):
+    async for event in agent.stream_async(prompt):
         if not isinstance(event, dict) or "event" not in event:
             continue
-        cbs = event["event"].get("contentBlockStart")
-        if cbs is not None and not cbs.get("start"):
+        block_start = event["event"].get("contentBlockStart")
+        if block_start is not None and not block_start.get("start"):
             continue
         yield event
 

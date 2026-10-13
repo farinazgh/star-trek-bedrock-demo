@@ -1,15 +1,23 @@
-import os
-import logging
-from mcp.client.streamable_http import streamablehttp_client
+"""IAM-authenticated MCP client for StarTrekGateway."""
+
+from mcp_proxy_for_aws.client import aws_iam_streamablehttp_client
 from strands.tools.mcp.mcp_client import MCPClient
 
-logger = logging.getLogger(__name__)
+GATEWAY_URL = (
+    "https://startrekagentcore-startrekgateway-321spmaima."
+    "gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp"
+)
 
-# ExaAI provides information about code through web searches, crawling and code context searches through their platform. Requires no authentication
-EXAMPLE_MCP_ENDPOINT = "https://mcp.exa.ai/mcp"
+REGION = "us-east-1"
 
 
 def get_streamable_http_mcp_client() -> MCPClient:
-    """Returns an MCP Client compatible with Strands"""
-    # to use an MCP server that supports bearer authentication, add headers={"Authorization": f"Bearer {access_token}"}
-    return MCPClient(lambda: streamablehttp_client(EXAMPLE_MCP_ENDPOINT))
+    """Connect to StarTrekGateway using AWS SigV4."""
+
+    return MCPClient(
+        lambda: aws_iam_streamablehttp_client(
+            endpoint=GATEWAY_URL,
+            aws_region=REGION,
+            aws_service="bedrock-agentcore",
+        )
+    )
