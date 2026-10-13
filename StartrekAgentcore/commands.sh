@@ -1,2 +1,0 @@
-agentcore add gateway --name StarTrekGateway --authorizer-type AWS_IAM
-agentcore add gateway-target --name LieutenantCommanderData --type connector --connector bedrock-knowledge-bases --knowledge-base-id KGXDNOMFVC --gateway StarTrekGateway

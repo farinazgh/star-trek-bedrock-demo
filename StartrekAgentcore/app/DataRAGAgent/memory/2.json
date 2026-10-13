@@ -1,0 +1,74 @@
+{
+  "resource": {
+    "attributes": {
+      "deployment.environment.name": "bedrock-agentcore:default",
+      "aws.local.service": "StartrekAgentcore_DataRAGAgent.DEFAULT",
+      "service.name": "StartrekAgentcore_DataRAGAgent.DEFAULT",
+      "cloud.region": "us-east-1",
+      "aws.log.stream.names": "otel-rt-logs",
+      "telemetry.sdk.name": "opentelemetry",
+      "aws.service.type": "gen_ai_agent",
+      "telemetry.sdk.language": "python",
+      "cloud.provider": "aws",
+      "service.instance.id": "6222c220-5956-490b-b31e-3f3145fefe8d",
+      "cloud.resource_id": "arn:aws:bedrock-agentcore:us-east-1:339712939282:runtime/StartrekAgentcore_DataRAGAgent-ktFs2yCMzh/runtime-endpoint/DEFAULT:DEFAULT",
+      "aws.log.group.names": "/aws/bedrock-agentcore/runtimes/StartrekAgentcore_DataRAGAgent-ktFs2yCMzh-DEFAULT",
+      "telemetry.sdk.version": "1.44.0",
+      "cloud.platform": "aws_bedrock_agentcore",
+      "telemetry.auto.version": "0.21.0-aws"
+    }
+  },
+  "scope": {
+    "name": "strands.telemetry.tracer",
+    "version": ""
+  },
+  "traceId": "6acde04d5018ba835f09b30421959536",
+  "spanId": "b6faac83ca26c99d",
+  "parentSpanId": "c16b988d2dea8591",
+  "flags": 256,
+  "name": "execute_tool LieutenantCommanderData___Retrieve",
+  "kind": "INTERNAL",
+  "startTimeUnixNano": 1791877203047036700,
+  "endTimeUnixNano": 1791877203827549400,
+  "durationNano": 780512728,
+  "attributes": {
+    "aws.local.service": "StartrekAgentcore_DataRAGAgent.DEFAULT",
+    "gen_ai.tool.status": "success",
+    "gen_ai.tool.call.id": "tooluse_dGxVVETqU7W2VlPV05g7Uz",
+    "gen_ai.tool.description": "Queries a knowledge base and retrieves information from it.",
+    "gen_ai.tool.json_schema": "{\"type\": \"object\", \"properties\": {\"retrievalQuery\": {\"description\": \"<p>Contains the query to send the knowledge base.</p>\", \"type\": \"object\", \"properties\": {\"text\": {\"description\": \"<p>The text of the query made to the knowledge base.</p>\", \"type\": \"string\"}}}}, \"required\": [\"retrievalQuery\"]}",
+    "aws.genai.span_kind": "TOOL",
+    "gen_ai.event.start_time": "2026-10-13T07:40:03.047065+00:00",
+    "aws.local.environment": "bedrock-agentcore:default",
+    "gen_ai.provider.name": "strands-agents",
+    "gen_ai.operation.name": "execute_tool",
+    "gen_ai.event.end_time": "2026-10-13T07:40:03.827526+00:00",
+    "gen_ai.tool.name": "LieutenantCommanderData___Retrieve",
+    "PlatformType": "AWS::BedrockAgentCore",
+    "session.id": "792e3581-69a9-4f78-ae78-4dfc3e305376",
+    "gen_ai.system": "strands-agents"
+  },
+  "events": [
+    {
+      "timeUnixNano": 1791877203047112200,
+      "name": "gen_ai.tool.message",
+      "attributes": {
+        "content": "{\"retrievalQuery\": {\"text\": \"Noonien Soong androids created Lore B-4 brother\"}}",
+        "role": "tool",
+        "id": "tooluse_dGxVVETqU7W2VlPV05g7Uz"
+      }
+    },
+    {
+      "timeUnixNano": 1791877203827519000,
+      "name": "gen_ai.choice",
+      "attributes": {
+        "message": "[{\"text\": \"{\\\"retrievalResults\\\":[{\\\"content\\\":{\\\"text\\\":\\\"And you consider it important to please humans?\\\\nThere are many things of importance... some more so than others.\\\\nMy quarters.\\\\nIt can identify any of the crew.  Just as I can identify flattery, brother.\\\\nIt is best used when it reflects genuine feelings.\\\\nDo you realize Commander Riker's hypotenuse question tricked you into showing your knowledge was much greater than you were indicating?\\\\nYou tend to underestimate humans, my brother. The way you praised young Wesley at the Helm, for example...\\\\nHe has a child's body, but we have found him to be much more than that.\\\\nI have no need for places to sit or sleep. Do you?\\\\nEverything available on a Doctor Noonien Soong.\\\\nBut had destroyed his own reputation by making what seemed wild promises about his positronic brain design... almost all of which failed.\\\\nIf you get one the way I did, Lore, it means four years at the Academy, another three as ensign, ten or twelve on varied space duty in the lieutenant grades...\\\\nHow?\\\\nAnd will we also discuss which of us was constructed first?\\\\nYou lived with the colonists?\\\\nQuite true. I keep trying to be more human... and keep failing.\\\\nAnd... do you realize... Lore, that I am obligated to report all of this to our ship's captain?\\\\nUse it also to describe for the captain the time you spent with the colonists. Including all you know about what happened to them.\\\",\\\"type\\\":\\\"TEXT\\\"},\\\"documentId\\\":\\\"s3://lieutenant-commander-data/data_lines.txt\\\",\\\"location\\\":{\\\"s3Location\\\":{\\\"uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\"},\\\"type\\\":\\\"S3\\\"},\\\"metadata\\\":{\\\"_file_type\\\":\\\"PLAIN_TEXT\\\",\\\"_document_title\\\":\\\"data_lines.txt\\\",\\\"_source_uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\",\\\"_chunk_id\\\":\\\"ojpUtz0FhrgXImhWU87074Xtj2uCEA0Fw-lDvdhIVBE\\\",\\\"_data_source_type\\\":\\\"S3\\\",\\\"_language_code\\\":\\\"en\\\",\\\"_created_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_last_updated_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_data_source_id\\\":\\\"3KLUF6GIN6\\\"},\\\"score\\\":0.8252489566802979},{\\\"content\\\":{\\\"text\\\":\\\"Enterprise, do you read me?\\\\nWe were headed for a medical facility. I was taking the boy's brother to Sickbay and...\\\\nI must find a way to contact the Enterprise.\\\\nYou do bear a resemblance to Doctor Noonian Soong, the cyberneticist who constructed me. But, Doctor Soong was killed shortly afterward by the Crystalline Entity.\\\\nBut the colony was destroyed, there were no survivors.\\\\nIt is really you.\\\\nPerhaps you could help me contact my ship.\\\\nThe moisture content of the ship's atmosphere is maintained at a moderate thirty-seven percent.\\\\nI can differentiate between varying hygrometric levels.\\\\nYes, sir.\\\\nHumid air feels different against my skin, sir. And it carries smells differently. I assume this is due to the fact that moisture...\\\\nMay I ask why you have brought me here?\\\\nYour response refers to how you brought me here, not why.\\\\nI assumed you dead, sir.\\\\nSir?\\\\nIt was Starfleet officers who rescued me.\\\\nWhat choice of vocation would have met with your approval?\\\\nTo follow in your footsteps, as it were?\\\\nMay I ask you a question, sir?\\\\nWhy did you create me?\\\\nOld things?\\\\nThere are many possible explanations.\\\\nPerhaps, for humans, old things represent a tie to the past.\\\\nHumans are mortal. They seem to need a sense of continuity.\\\\nTo give their lives meaning... A sense of purpose.\\\",\\\"type\\\":\\\"TEXT\\\"},\\\"documentId\\\":\\\"s3://lieutenant-commander-data/data_lines.txt\\\",\\\"location\\\":{\\\"s3Location\\\":{\\\"uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\"},\\\"type\\\":\\\"S3\\\"},\\\"metadata\\\":{\\\"_file_type\\\":\\\"PLAIN_TEXT\\\",\\\"_document_title\\\":\\\"data_lines.txt\\\",\\\"_source_uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\",\\\"_chunk_id\\\":\\\"OkBwRNOzIjxvuvNIOaeZTlntxUYEu7xHHK0UoXCTVZ4\\\",\\\"_data_source_type\\\":\\\"S3\\\",\\\"_language_code\\\":\\\"en\\\",\\\"_created_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_last_updated_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_data_source_id\\\":\\\"3KLUF6GIN6\\\"},\\\"score\\\":0.7180522680282593},{\\\"content\\\":{\\\"text\\\":\\\"I shall... miss you.\\\\nThey are currently somewhat indefinite, but my programming offers a number of alternatives.  I am considering teaching. I have had some success with my star pupil.\\\\nI see... from limitless options I am reduced to none, or rather one. I can only hope that Commander Maddox is more capable than it would appear.\\\\nCaptain, I have complete confidence in your ability to represent my interests.\\\\nSir, all of that information is stored in the Enterprise computer banks.\\\\nVery good, sir. Activation occurred twenty-seven years ago on Omicron Theta. I entered the Academy in '44, and graduated in '48 with honors in probability mechanics and exobiology. First posting...\\\\nI believe I indicated that earlier, sir.\\\\nDrives? Motivates? Sir, may I inquire as to the purpose of this line of questioning?\\\\nBut I am not. I am a machine.\\\\nHow can we deny the obvious?\\\\nBut if it is a fact how can argument alter --\\\\nSir?\\\\nI am beginning to understand why Shakespeare wrote, let us kill all the lawyers.\\\\nAn android.\\\\nWebster's Twenty-Third Century Dictionary, Fifth Edition, defines Android as an automaton made to resemble a human being.\\\\nSir?\\\\nDoctor Noonien Soong.\\\\nThe foremost authority in cybernetics.\\\\nA human?\\\\nI have an ultimate storage capacity of eight hundred quadrillion bits. My total linear computational speed has been rated at sixty trillion operations per second.\\\\nMy medals.\\\",\\\"type\\\":\\\"TEXT\\\"},\\\"documentId\\\":\\\"s3://lieutenant-commander-data/data_lines.txt\\\",\\\"location\\\":{\\\"s3Location\\\":{\\\"uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\"},\\\"type\\\":\\\"S3\\\"},\\\"metadata\\\":{\\\"_file_type\\\":\\\"PLAIN_TEXT\\\",\\\"_document_title\\\":\\\"data_lines.txt\\\",\\\"_source_uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\",\\\"_chunk_id\\\":\\\"9i3EXopm-eR_zN5UqwP0193FH6bybeEFp3MMAvUfi38\\\",\\\"_data_source_type\\\":\\\"S3\\\",\\\"_language_code\\\":\\\"en\\\",\\\"_created_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_last_updated_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_data_source_id\\\":\\\"3KLUF6GIN6\\\"},\\\"score\\\":0.6626068353652954},{\\\"content\\\":{\\\"text\\\":\\\"Doctor Noonien Soong.\\\\nThe foremost authority in cybernetics.\\\\nA human?\\\\nI have an ultimate storage capacity of eight hundred quadrillion bits. My total linear computational speed has been rated at sixty trillion operations per second.\\\\nMy medals.\\\\nI... I do not know, sir. None I suppose. I just wanted them. Is that vanity?\\\\nIt was a gift from you, sir.\\\\nYes, sir.\\\\nIt is a reminder of friendship and service.\\\\nI would prefer not to answer that question, sir. I gave my word.\\\\nShe was important to me... we were... intimate.\\\\nI am taking part in a legal hearing to determine my rights and status. Am I property or person?\\\\nMy right to choose. Perhaps my very life.\\\\nContinue your work, Commander, and when you are ready I will still be here.\\\\nYes, it would be a less lonely universe if there were more of my kind.\\\\nSir, there is a celebration on the Holodeck.\\\\nBecause you failed in your task?\\\\nYes, sir.\\\\nYes, that is true, but Commander... Will, I have learned from your experience.\\\\nThat at times one must deny their nature, sacrifice their own personal beliefs to protect another. Is it not true that had you refused to prosecute, Captain Louvois would have ruled summarily against me?\\\\nThat action injured you, and saved me. I will not forget.\\\\nNot yet sir, but with your help I am learning.\\\",\\\"type\\\":\\\"TEXT\\\"},\\\"documentId\\\":\\\"s3://lieutenant-commander-data/data_lines.txt\\\",\\\"location\\\":{\\\"s3Location\\\":{\\\"uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\"},\\\"type\\\":\\\"S3\\\"},\\\"metadata\\\":{\\\"_file_type\\\":\\\"PLAIN_TEXT\\\",\\\"_document_title\\\":\\\"data_lines.txt\\\",\\\"_source_uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\",\\\"_chunk_id\\\":\\\"3l7muZHpI_2a4F6W9zo1dSV98tF9CRpJHpN_FNL0Emw\\\",\\\"_data_source_type\\\":\\\"S3\\\",\\\"_language_code\\\":\\\"en\\\",\\\"_created_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_last_updated_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_data_source_id\\\":\\\"3KLUF6GIN6\\\"},\\\"score\\\":0.6609711647033691},{\\\"content\\\":{\\\"text\\\":\\\"Computer, recognize Picard, Jean- Luc. Alpha Two clearance.\\\\nCancel separation sequence.\\\\nIsolate all remaining command functions and accept related orders and inquiries from Main Bridge only.\\\\nComputer. Configure a perimeter field charge, sections Nine-K through Twelve-T.\\\\nComputer, prepare to transport me directly to the following coordinates.\\\\nCan you override?\\\\nShow me the shortest route to Transporter Room One.\\\\nComputer, prepare to activate a cascade force field sequence in the following progression.\\\\nComputer, establish a security code for access to all functions previously transferred to Bridge.\\\\nFour, one, three, three, six, eight, Tango, one, eight, one, one, seven, one, Charlie, four, Victor, three... eight, eight, eight, zero, Foxtrot, six, one, five, three, three, five, nine, five, seven, lock.\\\\nComputer, initiate cascade sequence, accepting instructions from Commander Data en route, now.\\\\nIntersection Eight-J. Aft-port. Establish.\\\\nComputer, begin scan-phase.\\\\nComputer, three-meter cross-seal.\\\\nI fail to recall how I arrived here.\\\\nData to Enterprise.\\\\nEnterprise, do you read me?\\\\nWe were headed for a medical facility. I was taking the boy's brother to Sickbay and...\\\\nI must find a way to contact the Enterprise.\\\\nYou do bear a resemblance to Doctor Noonian Soong, the cyberneticist who constructed me.\\\",\\\"type\\\":\\\"TEXT\\\"},\\\"documentId\\\":\\\"s3://lieutenant-commander-data/data_lines.txt\\\",\\\"location\\\":{\\\"s3Location\\\":{\\\"uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\"},\\\"type\\\":\\\"S3\\\"},\\\"metadata\\\":{\\\"_file_type\\\":\\\"PLAIN_TEXT\\\",\\\"_document_title\\\":\\\"data_lines.txt\\\",\\\"_source_uri\\\":\\\"https://lieutenant-commander-data.s3.amazonaws.com/data_lines.txt\\\",\\\"_chunk_id\\\":\\\"dgkwyGEyY4SOO6tAyTQ0apr_Dz8-1yO6eNk_HQjKUe8\\\",\\\"_data_source_type\\\":\\\"S3\\\",\\\"_language_code\\\":\\\"en\\\",\\\"_created_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_last_updated_at\\\":\\\"2026-10-05T10:17:03Z\\\",\\\"_data_source_id\\\":\\\"3KLUF6GIN6\\\"},\\\"score\\\":0.652604877948761}]}\"}]",
+        "id": "tooluse_dGxVVETqU7W2VlPV05g7Uz"
+      }
+    }
+  ],
+  "status": {
+    "code": "OK"
+  },
+  "@ptr": "CuABCqEBCl4zMzk3MTI5MzkyODI6L2F3cy9iZWRyb2NrLWFnZW50Y29yZS9ydW50aW1lcy9TdGFydHJla0FnZW50Y29yZV9EYXRhUkFHQWdlbnQta3RGczJ5Q016aC1ERUZBVUxUEAAaJDJkYzQ1OWI0LTE5YjYtNDJlYy1iMWMyLTZjMDkxYzFjMmFhZSIOCLjU9JCTNBC4sMGlkzRAlouzhpM0SAASOBoYAgas2c7wAAAAARobQVYABqzeAZAAAAUCIAEo8/DQoZM0MNv80aGTNDgbQOHABkjGyQNQvo8DIAIQBBgB"
+}
