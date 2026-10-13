@@ -29,8 +29,26 @@
             }
           }
         },
+        "policyEngines": {
+          "StarTrekPolicy": {
+            "policyEngineId": "StartrekAgentcore_StarTrekPolicy-x2ht_lvkfj",
+            "policyEngineArn": "arn:aws:bedrock-agentcore:us-east-1:339712939282:policy-engine/StartrekAgentcore_StarTrekPolicy-x2ht_lvkfj"
+          }
+        },
+        "policies": {
+          "StarTrekPolicy/PermitStarTrekRetrieval": {
+            "policyId": "PermitStarTrekRetrieval-utgdoiei4q",
+            "policyArn": "arn:aws:bedrock-agentcore:us-east-1:339712939282:policy-engine/StartrekAgentcore_StarTrekPolicy-x2ht_lvkfj/policy/PermitStarTrekRetrieval-utgdoiei4q",
+            "engineName": "StarTrekPolicy"
+          },
+          "StarTrekPolicy/DenyStarTrekRetrieval": {
+            "policyId": "DenyStarTrekRetrieval-onnbk1iwgs",
+            "policyArn": "arn:aws:bedrock-agentcore:us-east-1:339712939282:policy-engine/StartrekAgentcore_StarTrekPolicy-x2ht_lvkfj/policy/DenyStarTrekRetrieval-onnbk1iwgs",
+            "engineName": "StarTrekPolicy"
+          }
+        },
         "stackName": "AgentCore-StartrekAgentcore-default",
-        "deployHash": "1acc9c6d2ee78b42"
+        "deployHash": "de36cb325c06cf04"
       }
     }
   }

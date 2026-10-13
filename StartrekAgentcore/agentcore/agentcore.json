@@ -101,10 +101,36 @@
       ],
       "authorizerType": "AWS_IAM",
       "enableSemanticSearch": true,
-      "exceptionLevel": "NONE"
+      "exceptionLevel": "NONE",
+      "policyEngineConfiguration": {
+        "policyEngineName": "StarTrekPolicy",
+        "mode": "LOG_ONLY"
+      }
     }
   ],
-  "policyEngines": [],
+  "policyEngines": [
+    {
+      "name": "StarTrekPolicy",
+      "policies": [
+        {
+          "name": "PermitStarTrekRetrieval",
+          "statement": "permit(\r\n    principal is AgentCore::IamEntity,\r\n    action in [\r\n        AgentCore::Action::\"LieutenantCommanderData___Retrieve\",\r\n        AgentCore::Action::\"LieutenantCommanderData___AgenticRetrieveStream\"\r\n    ],\r\n    resource == AgentCore::Gateway::\"arn:aws:bedrock-agentcore:us-east-1:339712939282:gateway/startrekagentcore-startrekgateway-321spmaima\"\r\n);",
+          "sourceFile": "permit-retrieval.cedar",
+          "validationMode": "FAIL_ON_ANY_FINDINGS",
+          "enforcementMode": "ACTIVE",
+          "authorizationPhase": "INITIATE"
+        },
+        {
+          "name": "DenyStarTrekRetrieval",
+          "statement": "forbid(\r\n    principal is AgentCore::IamEntity,\r\n    action == AgentCore::Action::\"LieutenantCommanderData___AgenticRetrieveStream\",\r\n    resource == AgentCore::Gateway::\"arn:aws:bedrock-agentcore:us-east-1:339712939282:gateway/startrekagentcore-startrekgateway-321spmaima\"\r\n)\r\nwhen {\r\n    principal.id like \"arn:aws:sts::339712939282:assumed-role/*\"\r\n};",
+          "sourceFile": "deny-retrieval.cedar",
+          "validationMode": "FAIL_ON_ANY_FINDINGS",
+          "enforcementMode": "ACTIVE",
+          "authorizationPhase": "INITIATE"
+        }
+      ]
+    }
+  ],
   "configBundles": [],
   "abTests": [],
   "harnesses": [],
